@@ -1,24 +1,27 @@
  import axios from "axios";
 
- axios.defaults.headers.common["x-api-key"] = "live_3JjO3G5iaBcyeHeFwSPTqlukICTvmEXXsQ64luQc5BlpjgfQDzxuZTMvAaQIEsdZ";
+ // axios.defaults.headers.common["x-api-key"] = "live_3JjO3G5iaBcyeHeFwSPTqlukICTvmEXXsQ64luQc5BlpjgfQDzxuZTMvAaQIEsdZ";
 
-
+const URL_KEY = "live_3JjO3G5iaBcyeHeFwSPTqlukICTvmEXXsQ64luQc5BlpjgfQDzxuZTMvAaQIEsdZ";
 const BASE_URL = 'https://api.thecatapi.com/v1';
+
 export function fetchBreeds() {
     
-    return axios.get(`${BASE_URL}/breeds`).then(resp => {
-        if (resp.status !== 200) {
-            throw new Error(error);
+    return fetch(`${BASE_URL}/breeds?api_key=${URL_KEY}`)
+        .then(response => {
+        if (!response.ok) {
+            throw new Error(response.status)
         }
-        return resp.data;
-    });
+        return response.json();
+    })
    
 }
 
 
 
 export function fetchCatByBreed(breedId) {
-    return axios.get(`${BASE_URL}/images/search?breed_ids=${breedId}`).then(response => {
+    return fetch(`${BASE_URL}/images/search?breed_ids=${breedId}&api_key=${URL_KEY}`)
+        .then(response => {
        if (!response.ok) {
             throw new Error(response.status)
         }

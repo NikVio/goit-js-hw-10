@@ -51,17 +51,22 @@ refs.select.addEventListener('change', onChange);
 
 function onChange(evt) {
   let id = evt.target.value;
-  refs.container.hidden = true;
+   refs.container.classList.add("is-hidden");
   refs.loader.hidden = false;
   fetchCatByBreed(id)
     .then(data => {
+      
       let imgCat = data[0].url;
       let nameCat = data[0].breeds[0].name;
       let temperament = data[0].breeds[0].temperament;
       let descr = data[0].breeds[0].description
-      refs.container.innerHTML = marcup(imgCat, nameCat, temperament, descr)
-      refs.loader.hidden = true;
-      refs.container.hidden = false;
+      
+      refs.container.innerHTML = marcup(imgCat, nameCat, temperament, descr);
+      
+      
+      refs.container.classList.remove("is-hidden");
+       refs.loader.hidden = true;
+      
     })
     .catch(err => {
       Report.failure(
@@ -71,7 +76,7 @@ function onChange(evt) {
       );
       refs.loader.hidden = true;
       refs.select.hidden = false;
-      refs.container.hidden = true;
+     refs.container.classList.add("is-hidden");
       console.log(err);
     })
 }
@@ -79,12 +84,14 @@ function onChange(evt) {
 function marcup(imgCat, nameCat, temperament, descr) {
 
   return  `
-   <img class="img-cat" src="${imgCat}" alt="${nameCat}" width='400'>
+  <div class="container">
+   <img class="img-cat" src="${imgCat}" alt="${nameCat}">
     <div class="box-cat">
       <h2 class="name-cat">${nameCat}</h2>
       <p class="info-cat">${descr}</p>
       <h3 class="temp-cat">Temperament:</h3>
       <p>${temperament}</p>
+    </div>
     </div>`;
 }
 
